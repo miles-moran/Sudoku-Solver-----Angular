@@ -1,0 +1,9 @@
+<div class="grid">
+  <div *ngFor="let sector of grid[2]" class="grid_sector">
+    <div class="sector">
+      <div *ngFor="let point of sector; let counter = index;" class="block">
+        <input type="number" [ngClass]="{'immutable': !point.mutable}"class="input_box value_{{point.value}}" [(ngModel)]="point.value" value="{{point.value}}" (change)="updateList(point)">
+    </div>
+  </div>
+</div>
+<input type="button" value="Solve" (click)="solve()">
