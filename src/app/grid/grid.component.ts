@@ -37,11 +37,11 @@ export class GridComponent implements OnInit {
   }
 
   updateList(point:Point){
-    console.log("HELLO");
     let range = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    if (range.indexOf(point.value) == -1 ||  this.isValidInput(point, point.value) == false){
+    if (range.indexOf(point.value) == -1 || this.isValidInput(point, point.value) == false){
       point.value = 0;
       point.mutable = true;
+      point.possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     } else {
       point.mutable = false;
     }

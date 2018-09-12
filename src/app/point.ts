@@ -5,9 +5,10 @@ export class Point {
     y:number;
     sector:number;
     value:number;
-    properties: number[];
-    mutable: boolean;
-    sector_id: number;
+    properties:number[];
+    mutable:boolean;
+    sector_id:number;
+    possibles:number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     constructor(id:number, x:number, y:number) {
         console.log('-Point Instantiated-');
