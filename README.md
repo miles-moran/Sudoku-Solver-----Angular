@@ -1,3 +1,6 @@
+This project solves completes Sudoku puzzles. At the moment, there is minor hint/clue functionality which I may expand upon. This project has not been thoroughly tested. Uses the Angular Framework and typescript.
+
+
 # Sudoku
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
