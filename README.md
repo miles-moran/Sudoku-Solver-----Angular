@@ -2,6 +2,13 @@ This project solves/completes Sudoku puzzles. At the moment, there is minor hint
 
 This project has not been thoroughly tested. Written with the Angular Framework and typescript. I am very new to both.
 
+The three rules of Sudoku are as follows:
+  1) Every numeral value within a ROW must range from 1-9 and must be unique.
+  2) Every numeral value within a COLUMN must range from 1-9 and must be unique.
+  3) Every numeral value within a SECTOR must range from 1-9 and must be unique.
+  
+ I am proud of the function I wrote to check for violations of these rules, which sits at a compact four lines.
+
 
 # Sudoku
 
