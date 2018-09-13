@@ -41,7 +41,7 @@ export class GridComponent implements OnInit {
     console.log(point.value);
     console.log(range.indexOf(point.value));
     if (range.indexOf(point.value) == -1 || this.isValidInput(point, point.value) == false){
-      point.value = "null";
+      point.value = null;
       point.mutable = true;
       point.original = false;
       point.possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -61,6 +61,16 @@ export class GridComponent implements OnInit {
   hint(){
     let solver = new Solver(this.grid);
     solver.hint();
+  }
+
+  back(){
+    for (let y = 0; y < 9; y++){
+      for (let x = 0; x < 9; x++){
+        if (this.grid[1][y][x].original == false){
+          this.grid[1][y][x].value = null;
+        }
+      }
+    }
   }
 
   isValidInput(point, assignment){

@@ -1,4 +1,5 @@
 import { Point } from "./point";
+import { isType } from "@angular/core/src/type";
 
 export class Solver {
     grid:Array<Array<Array<Point>>>;
@@ -10,11 +11,13 @@ export class Solver {
     
     solve(){
         let assembled = this.assembled;
+        var comparisons = 0;
         var p = 0;
         var backtrack = false;
+        assembled = this.reviewAssemble(assembled);
         while (p < assembled.length){
             let point = assembled[p];
-            console.log(p + " - " + point.mutable);
+            console.log(p + " - " + point.mutable + " - " + point.value);
             if (point.mutable == true){
                 if (point.value == null){
                     point.value = 0;
@@ -31,24 +34,32 @@ export class Solver {
                     p++;
                     backtrack = false;
                 } else {
-                    point.value = 0;
-                    p--;
-                    backtrack = true;
-                    console.log("backtrack@" + p + " - " + point.mutable);
+                    if (p > 0){
+                        point.value = 0;
+                        p--;
+                        backtrack = true;
+                    } else {
+                        console.log("No Solution");
+                        break;
+                    }
+                    //console.log("backtrack@" + p + " - " + point.mutable);
                 }
             } else {
                 if (backtrack){
                     if (p > 0){
-                        p = p - 1;
+                        p--;
                     } else {
-                    
+                        console.log("No Solution");
+                        break;
                     }
-                    console.log("backtrack@" + p + " - " + point.mutable);
+                    //console.log("backtrack@" + p + " - " + point.mutable);
                 } else {
                     p++;
                 }
             }
+            comparisons++;
         }
+        console.log("Comparisons: " + comparisons);
     }
    
 
@@ -89,9 +100,6 @@ export class Solver {
                 let potentialCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //each signifying how many places within a grouping they can go
                 for (let xysIndex = 0; xysIndex < 9; xysIndex++){  //looping through points 
                     let point:Point = this.grid[gridCategory][xys][xysIndex];
-                    if (point.value == null){
-                        point.value = 0;
-                    }
                     if (point.mutable == false){
 
                     } else {
@@ -130,13 +138,25 @@ export class Solver {
     }
     
     assemble(grid:Array<Array<Array<Point>>>){
+        console.log("assembled");
         let assembled = new Array<Point>();
         for(let y = 0; y < 9; y++){
             for (let x = 0; x < 9; x++){
-                assembled.push(grid[1][y][x]);
+                assembled.push(this.grid[1][y][x]);
             }
         }
         return assembled;
+    }
+    reviewAssemble(grid:Array<Point>){
+        for (let i = 0; i < grid.length; i++){
+                if (grid[i].value == null){
+                    grid[i].mutable = true;
+                } else {
+                    grid[i].mutable = false;
+                    grid[i].original = true;
+                }
+            }
+        return grid;
     }
 
  }
