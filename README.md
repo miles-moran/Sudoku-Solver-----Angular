@@ -1,4 +1,6 @@
-This project solves completes Sudoku puzzles. At the moment, there is minor hint/clue functionality which I may expand upon. This project has not been thoroughly tested. Uses the Angular Framework and typescript.
+This project solves/completes Sudoku puzzles. At the moment, there is minor hint/clue functionality which I may expand upon (I don't have the patience for Sudoku. The solver uses a brute force approach rather than a more human method. 
+
+This project has not been thoroughly tested. Written with the Angular Framework and typescript. I am very new to both.
 
 
 # Sudoku
