@@ -12,18 +12,23 @@
 .grid_sector:nth-child(odd){
     background-color: lightblue;
 }
+.grid_sector:nth-child(even){
+    background-color: white;
+}
 .grid_sector {
-    
+
 }
 .block {
-    border: solid black .5px;
+    border: .2px solid black;
+    height: 3.9em;
+    width: 3.9em;
 }
 .input_box {
     background-color: transparent;
     border: none;   
     width: 100%;
     height: 100%;
-    font-size: 40px;
+    font-size: 50px;
     text-align: center;
 }
 input[type="number"]::-webkit-outer-spin-button,
@@ -33,10 +38,16 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield;
+    font-family: sans-serif;
+    height: 100%;
+    width: 100%;
 }
 input[type="number"]:hover {
-    -moz-appearance: textfield;
-    background-color: #E8E8E8;;
+    background-color: lightgray;
+    
+}
+input[type="number"]:focus {
+    background-color: #E8E8E8;
 }
 .value_0 {
     color: black;
@@ -48,7 +59,7 @@ input[type="number"]:hover {
     color: salmon;
 }
 .value_3 {
-    color: green;
+    color: rgb(246, 138, 250);
 }
 .value_4 {
     color: seagreen;
@@ -68,6 +79,12 @@ input[type="number"]:hover {
 .value_9 {
     color: purple;
 }
-.immutable {
+.original {
     background-color: #E8E8E8;
+    overflow:hidden;
+}
+#grid_container{
+    padding: .5em;
+    background-color: black;
+    width: fit-content;
 }

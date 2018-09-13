@@ -4,9 +4,10 @@ export class Point {
     x:number;
     y:number;
     sector:number;
-    value:number;
+    value:any;
     properties:number[];
     mutable:boolean;
+    original:boolean;
     sector_id:number;
     possibles:number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -16,10 +17,10 @@ export class Point {
         this.x = x;
         this.y = y;
         this.sector = 3 * (y / 3 >> 0) + (x / 3 >> 0);
-        this.value = 0;
+        this.value = null;
         this.properties = [this.x, this.y, this.sector];
         this.mutable = true;
+        this.original = false;
     }
-
 
 }

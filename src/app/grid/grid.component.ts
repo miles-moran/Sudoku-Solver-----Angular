@@ -38,12 +38,16 @@ export class GridComponent implements OnInit {
 
   updateList(point:Point){
     let range = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    console.log(point.value);
+    console.log(range.indexOf(point.value));
     if (range.indexOf(point.value) == -1 || this.isValidInput(point, point.value) == false){
-      point.value = 0;
+      point.value = "null";
       point.mutable = true;
+      point.original = false;
       point.possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     } else {
       point.mutable = false;
+      point.original = true;
     }
     this.grid[0][point.properties[0]].push(point);
     this.grid[1][point.properties[1]].push(point);
@@ -52,6 +56,11 @@ export class GridComponent implements OnInit {
   solve(){
     let solver = new Solver(this.grid);
     solver.solve();
+  }
+
+  hint(){
+    let solver = new Solver(this.grid);
+    solver.hint();
   }
 
   isValidInput(point, assignment){
