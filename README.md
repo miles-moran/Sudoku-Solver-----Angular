@@ -1,3 +1,15 @@
+This project solves/completes Sudoku puzzles. At the moment, there is minor hint/clue functionality which I may expand upon (I don't have the patience for Sudoku. The solver uses a brute force approach rather than a more human method. 
+
+This project has not been thoroughly tested. Written with the Angular Framework and typescript. I am very new to both.
+
+The three rules of Sudoku are as follows:
+  1) Every numeral value within a ROW must range from 1-9 and must be unique.
+  2) Every numeral value within a COLUMN must range from 1-9 and must be unique.
+  3) Every numeral value within a SECTOR must range from 1-9 and must be unique.
+  
+ I am proud of the function I wrote to check for violations of these rules, which sits at a compact four lines.
+
+
 # Sudoku
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
