@@ -1,35 +1,37 @@
 .grid {
     display:grid;
-    grid-template-columns: 12em 12em 12em;
-    grid-template-rows: 12em 12em 12em;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: fit-content;
+    border: .5em solid black;
 }
 .sector {
     display:grid;
-    grid-template-columns: 4em 4em 4em;
-    grid-template-rows: 4em 4em 4em;
-    border: solid black 1px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    border: 2px solid black;
 }
 .grid_sector:nth-child(odd){
-    background-color: lightblue;
+    background-color: rgb(247, 247, 247);
 }
 .grid_sector:nth-child(even){
     background-color: white;
 }
-.grid_sector {
-
-}
 .block {
-    border: .2px solid black;
-    height: 3.9em;
-    width: 3.9em;
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+    overflow: hidden;
+    outline: solid black .5px;
 }
 .input_box {
     background-color: transparent;
     border: none;   
-    width: 100%;
-    height: 100%;
-    font-size: 50px;
+    width: 1em;
+    height: 1em;
+    font-size: 45px;
     text-align: center;
+    font-weight: bold;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -38,22 +40,18 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield;
-    font-family: sans-serif;
-    height: 100%;
-    width: 100%;
 }
-input[type="number"]:hover {
-    background-color: lightgray;
-    
+.block:hover {
+    background-color: darkgray;
 }
-input[type="number"]:focus {
+.input[type="number"]:focus {
     background-color: #E8E8E8;
 }
 .value_0 {
     color: black;
 }
 .value_1 {
-    color: blue;
+    color: rgb(78, 78, 212);
 }
 .value_2 {
     color: salmon;
@@ -65,26 +63,41 @@ input[type="number"]:focus {
     color: seagreen;
 }
 .value_5 {
-    color: orange;
+    color: rgb(238, 157, 8);
 }
 .value_6 {
-    color: orangered;
+    color: rgb(255, 89, 29);
 }
 .value_7 {
-    color: red;
+    color: rgb(255, 0, 149);
 }
 .value_8 {
-    color: maroon;
+    color: rgb(177, 4, 4);
 }
 .value_9 {
-    color: purple;
+    color: rgb(163, 61, 163);
 }
 .original {
-    background-color: #E8E8E8;
-    overflow:hidden;
+    
 }
+.clue {
+   
+ }
+ .fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+ }
 #grid_container{
-    padding: .5em;
-    background-color: black;
     width: fit-content;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+#buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 2em;
+    font-family: sans-serif;
 }

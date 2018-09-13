@@ -89,6 +89,9 @@ export class Solver {
                 let potentialCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //each signifying how many places within a grouping they can go
                 for (let xysIndex = 0; xysIndex < 9; xysIndex++){  //looping through points 
                     let point:Point = this.grid[gridCategory][xys][xysIndex];
+                    if (point.value == null){
+                        point.value = 0;
+                    }
                     if (point.mutable == false){
 
                     } else {
@@ -106,6 +109,7 @@ export class Solver {
                             if (this.isValidInput(point, possible_value_index + 1) && point.mutable == true){
                                 point.value = possible_value_index + 1;
                                 point.mutable = false;
+                                point.clue = true;
                             }
                         }
                     }

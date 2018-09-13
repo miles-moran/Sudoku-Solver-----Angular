@@ -3,11 +3,14 @@
     <div *ngFor="let sector of grid[2]" class="grid_sector">
       <div class="sector">
         <div *ngFor="let point of sector; let counter = index;" class="block">
-          <input type="number" [ngClass]="{'original': point.original}"class="input_box value_{{point.value}}" [(ngModel)]="point.value" value="{{point.value}}" (change)="updateList(point)">
+          <input type="number" [ngClass]="{'original': point.original, 'clue': point.clue}" class="input_box value_{{point.value}}" [(ngModel)]="point.value" value="{{point.value}}" (change)="updateList(point)">
+        </div>
       </div>
     </div>
   </div>
-  </div>
+  <div id="buttons">
+    <input type="button" id="button1" value="Solve" (click)="solve()">
+    <input type="button" id="button2" value="Hint" (click)="hint()">
+    <input type="button" id="button3" value="" (click)="hint()">
+  </div>    
 </div>
-<input type="button" value="Solve" (click)="solve()">
-<input type="button" value="Hint" (click)="hint()">

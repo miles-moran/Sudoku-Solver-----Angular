@@ -8,6 +8,7 @@ export class Point {
     properties:number[];
     mutable:boolean;
     original:boolean;
+    clue:boolean;
     sector_id:number;
     possibles:number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -21,6 +22,7 @@ export class Point {
         this.properties = [this.x, this.y, this.sector];
         this.mutable = true;
         this.original = false;
+        this.clue = false;
     }
 
 }
