@@ -3,13 +3,13 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     width: fit-content;
-    border: .5em solid black;
+    border: 8px solid gray;
 }
 .sector {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    border: 2px solid black;
+    border: 3px solid gray;
 }
 .grid_sector:nth-child(odd){
     background-color: rgb(247, 247, 247);
@@ -22,7 +22,7 @@
     width: 100%;
     font-family: sans-serif;
     overflow: hidden;
-    outline: solid black .5px;
+    outline: solid lightgray .5px;
 }
 .input_box {
     background-color: transparent;
@@ -100,4 +100,9 @@ input[type="number"] {
     grid-template-columns: 1fr 1fr 1fr;
     height: 2em;
     font-family: sans-serif;
+}
+#possibles {
+    font-family: sans-serif;
+    width: fit-content;
+    height: fit-content;
 }

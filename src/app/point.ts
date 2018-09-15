@@ -1,5 +1,4 @@
 export class Point {
-
     id:number;
     x:number;
     y:number;
@@ -10,7 +9,7 @@ export class Point {
     original:boolean;
     clue:boolean;
     sector_id:number;
-    possibles:number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    possibles:number[];
 
     constructor(id:number, x:number, y:number) {
         console.log('-Point Instantiated-');
@@ -23,6 +22,10 @@ export class Point {
         this.mutable = true;
         this.original = false;
         this.clue = false;
+        this.possibles = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
 
+    toString(){
+        return "(" + this.x + "," + this.y + ")";
+    }
 }

@@ -1,10 +1,11 @@
 import { Point } from "./point";
 import { isType } from "@angular/core/src/type";
+import { Grouping } from "./grouping";
 
 export class Solver {
-    grid:Array<Array<Array<Point>>>;
+    grid:Array<Array<Grouping>>;
     assembled:Array<Point>;
-    constructor(grid:Array<Array<Array<Point>>>){
+    constructor(grid:Array<Array<Grouping>>){
         this.grid = grid;
         this.assembled = this.assemble(grid);
     }
@@ -14,7 +15,7 @@ export class Solver {
         var comparisons = 0;
         var p = 0;
         var backtrack = false;
-        assembled = this.reviewAssemble(assembled);
+        assembled = this.assemble(this.grid);
         while (p < assembled.length){
             let point = assembled[p];
             console.log(p + " - " + point.mutable + " - " + point.value);
@@ -61,64 +62,34 @@ export class Solver {
         }
         console.log("Comparisons: " + comparisons);
     }
-   
-
-    findPossible(){
-        for (let gridCategory = 0; gridCategory < 3; gridCategory++){ //each method of organization is looped through 0, 1, 2
-            for (let xys = 0; xys < 9; xys++){ //each grouping, a column row, or sector, is looped through. 0-8
-                let potentialCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //each signifying how many places within a grouping they can go
-                for (let xysIndex = 0; xysIndex < 9; xysIndex++){  //looping through points 
-                    let point:Point = this.grid[gridCategory][xys][xysIndex];
-                    if (point.mutable == false){
-
-                    } else {
-                        for (let possible_value = 1; possible_value < 10; possible_value++){ //looping through possible values
-                            if (this.isValidInput(point, possible_value)){
-                                potentialCounter[possible_value - 1]++;
-                            }
-                        }
-                    }
-                }
-                for (let possible_value_index = 0; possible_value_index < 9; possible_value_index++){
-                    if (potentialCounter[possible_value_index] == 1){
-                        for (let xysIndex = 0; xysIndex < 9; xysIndex++){
-                            let point:Point = this.grid[gridCategory][xys][xysIndex];
-                            if (this.isValidInput(point, possible_value_index + 1) && point.mutable == true){
-                                point.value = possible_value_index + 1;
-                                point.mutable = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+    
     hint(){
+        console.log(this.grid[0][0].points[0].possibles);
         for (let gridCategory = 0; gridCategory < 3; gridCategory++){ //each method of organization is looped through 0, 1, 2
             for (let xys = 0; xys < 9; xys++){ //each grouping, a column row, or sector, is looped through. 0-8
-                let potentialCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //each signifying how many places within a grouping they can go
                 for (let xysIndex = 0; xysIndex < 9; xysIndex++){  //looping through points 
-                    let point:Point = this.grid[gridCategory][xys][xysIndex];
+                    let ledger = this.grid[gridCategory][xysIndex].ledger;
+                    //TYPE ONE - ONE POSSIBLE LOCATION
+                    for (let assignment_index = 0; assignment_index < ledger.length; assignment_index++){
+                        if (ledger[assignment_index].length == 1){
+                            console.log("(1) NUMBER HAS ONE POSSIBLE LOCATION")
+                            ledger[assignment_index][0].value = assignment_index + 1;
+                            ledger[assignment_index][0].mutable = false;
+                            ledger[assignment_index] = [];
+                            return;
+                        }
+                    }
+                    //TYPE TWO - LOCATION HAS ONE POSSIBLE NUMBER
+                    let point:Point = this.grid[gridCategory][xys].points[xysIndex];
                     if (point.mutable == false){
 
                     } else {
-                        for (let possible_value = 1; possible_value < 10; possible_value++){ //looping through possible values
-                            if (this.isValidInput(point, possible_value)){
-                                potentialCounter[possible_value - 1]++;
-                            }
-                        }
-                    }
-                }
-                for (let possible_value_index = 0; possible_value_index < 9; possible_value_index++){
-                    if (potentialCounter[possible_value_index] == 1){
-                        for (let xysIndex = 0; xysIndex < 9; xysIndex++){
-                            let point:Point = this.grid[gridCategory][xys][xysIndex];
-                            if (this.isValidInput(point, possible_value_index + 1) && point.mutable == true){
-                                point.value = possible_value_index + 1;
-                                point.mutable = false;
-                                point.clue = true;
-                            }
+                        if (point.possibles.length == 1){
+                            console.log("(2) POINT HAS ONE POSSIBLE NUMBER")
+                            point.value = point.possibles[0];
+                            point.mutable = false;
+                            point.possibles = [];
+                            return;
                         }
                     }
                 }
@@ -128,8 +99,8 @@ export class Solver {
 
     isValidInput(point, assignment){
         for (let p = 0; p < 3; p++){
-          for (let scan in this.grid[p][point.properties[p]]){
-            if (assignment == this.grid[p][point.properties[p]][scan].value){
+          for (let scan in this.grid[p][point.properties[p]].points){
+            if (assignment == this.grid[p][point.properties[p]].points[scan].value){
               return false;
             }
           }
@@ -137,27 +108,21 @@ export class Solver {
         return true;
     }
     
-    assemble(grid:Array<Array<Array<Point>>>){
+    assemble(grid:Array<Array<Grouping>>){
         console.log("assembled");
         let assembled = new Array<Point>();
         for(let y = 0; y < 9; y++){
             for (let x = 0; x < 9; x++){
-                assembled.push(this.grid[1][y][x]);
+                if (this.grid[1][y].points[x].value == null){
+                    this.grid[1][y].points[x].mutable = true;
+                } else {
+                    this.grid[1][y].points[x].mutable = false;
+                    this.grid[1][y].points[x].original = true;
+                }
+                assembled.push(this.grid[1][y].points[x]);
             }
         }
         return assembled;
     }
-    reviewAssemble(grid:Array<Point>){
-        for (let i = 0; i < grid.length; i++){
-                if (grid[i].value == null){
-                    grid[i].mutable = true;
-                } else {
-                    grid[i].mutable = false;
-                    grid[i].original = true;
-                }
-            }
-        return grid;
-    }
-
  }
  
