@@ -53,12 +53,13 @@ export class GridComponent implements OnInit {
     this.grid[0][point.properties[0]].points.push(point);
     this.grid[1][point.properties[1]].points.push(point);
     this.updatePossibles();
-    console.log(this.grid[2][0].ledger[0]);
+    //console.log(this.grid[2][0].ledger[0]);
   }
 
   solve(){
     let solver = new Solver(this.grid);
     solver.solve();
+    this.updatePossibles();
   }
 
   hint(){
@@ -99,6 +100,11 @@ export class GridComponent implements OnInit {
                 if (point.mutable == false){
                   point.possibles = [];
                   ledger[point.value - 1] = [];
+                  for (let possible_value = 1; possible_value < 10; possible_value++){
+                    if (typeof ledger[possible_value - 1] !== 'undefined' && ledger[possible_value - 1].indexOf(point) != -1){
+                      ledger[possible_value - 1].splice(ledger[possible_value - 1].indexOf(point), 1);
+                    }
+                  }
                 } else {
                     for (let possible_value = 1; possible_value < 10; possible_value++){ //looping through possible values
                         if (this.isValidInput(point, possible_value)){
@@ -107,9 +113,19 @@ export class GridComponent implements OnInit {
                           }
                           if (typeof ledger[possible_value - 1] === 'undefined'){
                             ledger[possible_value - 1] = new Array<Point>();
-                          }
-                          if (ledger[possible_value - 1].indexOf(point) == -1){
-                            ledger[possible_value - 1].push(point);
+                          } else {
+                            if (ledger[possible_value - 1].indexOf(point) == -1){
+                              let taken:boolean = false;
+                              for (let scan = 0; scan < grouping.points.length; scan++){
+                                if (grouping.points[scan].value == possible_value){
+                                  taken = true;
+                                  break;
+                                }
+                              }
+                              if (taken == false){
+                                ledger[possible_value - 1].push(point);
+                              }
+                            }
                           }
                         } else {
                           if (point.possibles.indexOf(possible_value) != -1){
@@ -118,19 +134,77 @@ export class GridComponent implements OnInit {
                           if (typeof ledger[possible_value - 1] !== 'undefined' && ledger[possible_value - 1].indexOf(point) != -1){
                             ledger[possible_value - 1].splice(ledger[possible_value - 1].indexOf(point), 1);
                           }
-                        }
+                      }
                     }
+                  }
                 }
+              }
             }
-          }
-        }
-
+            for (let grouping = 0; grouping < this.grid[2].length; grouping++){
+              let ledger = this.grid[2][grouping].ledger;
+              for (let possible_value = 1; possible_value < 10; possible_value++){
+                if (typeof ledger[possible_value - 1] !== 'undefined' && ledger[possible_value - 1].length > 0){
+                  let x = ledger[possible_value - 1][0].x;
+                  let y = ledger[possible_value - 1][0].y;
+                  for (let p = 1; p < ledger[possible_value - 1].length; p++){
+                    if (ledger[possible_value - 1][p].x != x){
+                      x = null;
+                    }
+                    if (ledger[possible_value - 1][p].y != y){
+                      y = null;
+                    }
+                    if (x == null && y == null){
+                      break
+                    } else {
+                      if (p == ledger[possible_value - 1].length - 1){
+                        let dimension;
+                        let organization;
+                        if (x != null){
+                          dimension = x;
+                          organization = 0;
+                        }
+                        if (y != null){
+                          dimension = y;
+                          organization = 1;
+                        }
+                        let rowORcolumn = this.grid[organization][dimension];
+                        for (let point = 0; point < 9; point++){
+                          let rcPoint = rowORcolumn.points[point];
+                          if (rcPoint.possibles.indexOf(possible_value) != -1 && rcPoint.sector != grouping){
+                            rcPoint.possibles.splice(rcPoint.possibles.indexOf(possible_value), 1);
+                          }
+                          if (rowORcolumn.ledger[possible_value - 1].indexOf(rcPoint) != -1 && rcPoint.sector != grouping){
+                            rowORcolumn.ledger[possible_value - 1].splice(rowORcolumn.ledger[possible_value - 1].indexOf(rcPoint), 1);
+            
+                            console.log("removed " + rcPoint.x + " - " + rcPoint.y);
+                            console.log(rowORcolumn.ledger[possible_value -1]);
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
 }
 
-possibles(point:Point){
+hover(point:Point){
   let possibles:any;
   possibles = point.possibles;
   document.getElementById("possibles").innerHTML = "(" + point.x + ", " + point.y + ") - "  + possibles;
+}
+  
+focus(point:Point){
+  for (let y = 0; y < 9; y++){
+    for (let x = 0; x < 9; x++){
+      let compare:Point = this.grid[1][y].points[x];
+      if ((compare.x == point.x || compare.y == point.y || compare.sector == point.sector)){
+        compare.focused = true;
+      } else {
+        compare.focused = false;
+      }
+    }
+  }
 }
 
 clear(){
@@ -142,6 +216,18 @@ clear(){
     }
   }
   this.updatePossibles();
+}
+
+sectorData(grouping:Grouping){ 
+  let ledger:any = "";
+  for (let a = 0; a < grouping.ledger.length; a++){
+    ledger += "<div>";
+    ledger += (a + 1) + " - " ;
+    ledger += grouping.ledger[a];
+    ledger += "</div>";
+  }
+  document.getElementById("sectorData").innerHTML = ledger;
+
 }
 
 }

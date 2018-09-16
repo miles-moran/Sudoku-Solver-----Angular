@@ -1,9 +1,9 @@
 <div id="grid_container">
   <div class="grid">
-    <div *ngFor="let sector of grid[2]" class="grid_sector">
+    <div *ngFor="let sector of grid[2]" class="grid_sector" (mouseover)="sectorData(sector)">
       <div class="sector">
         <div *ngFor="let point of sector.points; let counter = index;" class="block">
-          <input type="number" [ngClass]="{'original': point.original, 'clue': point.clue}" class="input_box value_{{point.value}}" [(ngModel)]="point.value" value="{{point.value}}" (change)="updateList(point)" (mouseover)="possibles(point)">
+          <input type="number" [ngClass]="{'original': point.original, 'clue': point.clue, 'focused': point.focused}" class="input_box value_{{point.value}}" [(ngModel)]="point.value" value="{{point.value}}" (mouseover)="focus(point)" (change)="updateList(point)" (mouseover)="hover(point)">
         </div>
       </div>
     </div>
@@ -16,3 +16,4 @@
   </div>    
 </div>
 <div id="possibles"></div>
+<div id="sectorData"></div>

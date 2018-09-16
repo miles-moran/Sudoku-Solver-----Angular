@@ -8,6 +8,7 @@ export class Point {
     mutable:boolean;
     original:boolean;
     clue:boolean;
+    focused:boolean;
     sector_id:number;
     possibles:number[];
 

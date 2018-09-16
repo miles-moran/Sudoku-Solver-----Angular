@@ -42,10 +42,10 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 .block:hover {
-    background-color: darkgray;
+    background-color: lightgray;
 }
-.input[type="number"]:focus {
-    background-color: #E8E8E8;
+.input:focus {
+   background-color: lightblue;
 }
 .value_0 {
     color: black;
@@ -105,4 +105,7 @@ input[type="number"] {
     font-family: sans-serif;
     width: fit-content;
     height: fit-content;
+}
+.focused {
+    background-color: rgb(230, 230, 230);
 }
